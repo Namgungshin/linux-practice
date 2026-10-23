@@ -1,3 +1,4 @@
+# Source: rohitg00/ai-engineering-from-scratch (MIT) - phases/02-ml-fundamentals/01-what-is-machine-learning/code/ml_intro.py
 import numpy as np
 
 
