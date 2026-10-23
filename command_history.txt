@@ -1,0 +1,80 @@
+   29  chmod 644 run.sh
+   30  ls -l run.sh
+   31  ./run.sh
+   32  chmod 755 run.sh
+   33  ls -l run.sh
+   34  ./run.sh
+   35  sleep 300 &
+   36  jobs
+   37  ps aux | grep sleep
+   38  kill %1
+   39  systemctl status ssh
+   40  jobs
+   41  ps aux | grep sleep
+   42  systemctl status ssh --no-pager
+   43  htop
+   44  df -h
+   45  du -sh ~/lab
+   46  du -h --max-depth=1 ~ | sort -hr | head
+   47  du -sh ~/.chache
+   48  du -sh ~/.cache
+   49  du -sh ~/.cache/* 2>/dev/null
+   50  mkdir -p ~/lab/models
+   51  dd if=/dev/zero of=~/lab/models/fake.ckpt bs=1M count=500
+   52  du -h --max-depth=1 ~ | sort -hr | head
+   53  find ~ -name "*.ckpt" -size +100M
+   54  df -h /
+   55  rm ~/lab/models/fake.ckpt
+   56  df -h /
+   57  du -sh ~/lab
+   58  tmux new -s train
+   59  tmux attach -t train
+   60  exit
+   61  cd ~/lab
+   62  for i in $(seq 1 20); do echo "epoch=$i loss=0.$((RANDOM % 900 + 100)) acc=0.$((RANDOM % 400 + 600))"; done > train.log
+   63  head -5 train.log
+   64  wc -l train.log
+   65  grep loss train.log | awk -F'loss=' '{print $2}' | head -3
+   66  awk '{print $3}' train.log | sed 's/loss=//' | sort -n | head -3
+   67  ls train.log not_exist.log > out.txt 2> err.txt
+   68  cat out.txt
+   69  cat err.txt
+   70  sort -t= -k3 -n train.log | head -1
+   71  ls train.log not_exist.log > out.txt 2> err.txt
+   72  cat out.txt
+   73  cat err.txt
+   74  ls train.log not_exist.log > all.txt 2>&1
+   75  cat all.txt
+   76  echo "run started" | tee run.log
+   77  echo "epoch=1 done" | tee -a run.log
+   78  cat run.log
+   79  ls train.log not_exist.log > all.txt 2>&1
+   80  cat all.txt
+   81  echo "run started" | tee run.log
+   82  echo "epoch=1 done" | tee -a run.log
+   83  cat run.log
+   84  cat > fake_train.sh << 'EOF'
+   85  #!/bin/bash
+   86  for i in $(seq 1 30); do
+   87    echo "epoch=$i loss=0.$((RANDOM % 900 + 100))"
+   88    sleep 1
+   89  done
+   90  echo "training done"
+   91  EOF
+   92  chmod +x fake_train.sh
+   93  nohup ./fake_train.sh > fake.log 2>&1 &
+   94  tail -f fake.log
+   95  grep -c epoch fake.log
+   96  grep epoch fake.log | awk -F'loss=' '{print $2}' | sort -n | head -3
+   97  grep epoch fake.log | sort -t= -k3 -n | head -1
+   98  echo "alias ll='ls -la'" >> ~/.bashrc
+   99  echo "alias lasterr='tail -n 20 fake.log'" >> ~/.bashrc
+  100  source ~/.bashrc
+  101  ll
+  102  lasterr
+  103  find ~ -type f -size +1M 2>/dev/null | head
+  104  du -ah ~ | sort -hr | head -5
+  105  grep -E 'acc=0\.9' train.log | wc -l
+  106  history | tail -80 > ~/lab/command_history.txt
+  107  exit
+  108  history | tail -80 > ~/lab/command_history.txt
